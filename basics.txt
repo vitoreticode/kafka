@@ -1,0 +1,44 @@
+Messages and schemas
+
+    Kafka is able to process millions of Messages per second. Different consumers may access the same Message. This allows you to move away from batch processing and scale infinitely. Another benefit is being able to utilize the data in real time versus keeping it sitting on spinning disk.
+
+    AT LEAST ONCE
+
+        A producer cand send the same Message more than once. If the Message fails or is not acknowleged, the producer can send the Message again. The consumer may have to eliminate duplicate Messages
+
+    AT MOST ONCE
+
+        A producer may send a Message once and never retry. If the Messages fails or is not acknowleged, the producer will never send the Message again.
+
+    EXACTLY ONCE
+
+        Even if a producer sends a Message more than once, the consumer will only receive the Message once
+
+
+Topics and Partitions
+
+    Messages in kafka are called topics. Topics are divided into partitions, with each message receiving an incremental ID called offset.
+
+    When a new message is written:
+        - by default, it is kept for one week
+        - it cannot be altered or changed in any way
+        - the ID will increment infinitely(never start over at zero)
+        - it is randomly assigned to a partition, unless a key is provided
+
+
+Producers and consumers
+
+    A producer is a client that writes data to kafka cluster in order to eventually get consumed. 
+    A consumer is the application that consumes or reads the messages. The consumer subscribes to one or more topics and reads the messages in the order in which they are produced
+
+    ACK:
+        Producers can choose whether to receive a confirmation of delivery by setting "acks"
+    Key:
+        Producers specify a key, indicating that a message will go to the same partition every time
+    Consumer Group:
+        TO ensure multiple consumers arent reading the same message, consumer groups map reads to consumers.
+
+
+Brokers and clusters
+
+    A broker receives messages from the producer, assigns offsets and stores the messages on disk. Brokers are designed to operate in a cluster, in which one broker is assigned the controller. Brokers will also replicate data across brokers in order to create fault tolerance.
